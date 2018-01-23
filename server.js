@@ -33,14 +33,13 @@ app.get('/db/book', function (request, response) {
 
 app.post('/db/book', function (request, response) {
   client.query(`
-    INSERT INTO books(title, author, url, book_id, isbn, description)
-    VALUES($1, $2, $3, $4, $5, $6);
+    INSERT INTO books(title, author, url, isbn, description)
+    VALUES($1, $2, $3, $4, $5);
     `,
     [
       request.body.title,
       request.body.author,
       request.body.url,
-      request.body.book_id,
       request.body.isbn,
       request.body.description
     ]
