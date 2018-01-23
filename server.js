@@ -7,7 +7,7 @@ const PORT = process.env.PORT;
 const app = express();
 const conString = process.env.DATABASE_URL;
 const client = new pg.Client(conString);
-const cons = require('cons');
+const cors = require('cors');
 client.connect();
 
 app.use(cors());
@@ -20,51 +20,51 @@ app.get('', (req, res) => {
 app.post('/books', (req, res) => {
   res.send('you posted')
 });
-// app.get('/db/person', function (request, response) {
-//   client.query('SELECT * FROM persons;')
-//     .then(function (data) {
-//       response.send(data);
-//     })
-//     .catch(function (err) {
-//       console.error(err);
-//     });
-// });
+app.get('/db/books', function (request, response) {
+  client.query('SELECT * FROM books;')
+    .then(function (data) {
+      response.send(data);
+    })
+    .catch(function (err) {
+      console.error(err);
+    });
+});
 
-// app.post('/db/person', function (request, response) {
-//   client.query(`
-//     INSERT INTO persons(name, age, ninja)
-//     VALUES($1, $2, $3);
-//     `,
-//     [
-//       request.body.name,
-//       request.body.age,
-//       request.body.ninja
-//     ]
-//   )
-//     .then(function (data) {
-//       response.redirect('/');
-//     })
-//     .catch(function (err) {
-//       console.error(err);
-//     });
-// });
+app.post('/db/books', function (request, response) {
+  client.query(`
+    INSERT INTO books(bookName, author, imageUrl)
+    VALUES($1, $2, $3);
+    `,
+    [
+      request.body.bookName,
+      request.body.author,
+      request.body.imageUrl
+    ]
+  )
+    .then(function (data) {
+      response.redirect('/');
+    })
+    .catch(function (err) {
+      console.error(err);
+    });
+});
 
-// createTable();
+createTable();
 
-// app.listen(PORT, () => {
-//   console.log(`currently listening on ${PORT}`);
-// });
+app.listen(PORT, () => {
+  console.log(`currently listening on ${PORT}`);
+});
 
-// function createTable() {
-//   client.query(`
-//     CREATE TABLE IF NOT EXISTS persons(
-//       id SERIAL PRIMARY KEY,
-//       name VARCHAR(256),
-//       age INTEGER,
-//       ninja BOOLEAN
-//     );`
-//   )
-//     .then(function (response) {
-//       console.log('created table in db!!!!');
-//     });
-// };
+function createTable() {
+  client.query(`
+    CREATE TABLE IF NOT EXISTS books(
+      id SERIAL PRIMARY KEY,
+      bookName VARCHAR(256),
+      author VARCHAR(256),
+      imageUrl VARCHAR(256)
+    );`
+  )
+    .then(function (response) {
+      console.log('created table in db!!!!');
+    });
+};
