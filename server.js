@@ -32,13 +32,13 @@ app.get('/db/books', function (request, response) {
 
 app.post('/db/books', function (request, response) {
   client.query(`
-    INSERT INTO books(bookName, author, imageUrl)
+    INSERT INTO books(title, author, url)
     VALUES($1, $2, $3);
     `,
     [
-      request.body.bookName,
+      request.body.title,
       request.body.author,
-      request.body.imageUrl
+      request.body.url
     ]
   )
     .then(function (data) {
@@ -59,9 +59,9 @@ function createTable() {
   client.query(`
     CREATE TABLE IF NOT EXISTS books(
       id SERIAL PRIMARY KEY,
-      bookName VARCHAR(256),
+      title VARCHAR(256),
       author VARCHAR(256),
-      imageUrl VARCHAR(256)
+      url VARCHAR(256)
     );`
   )
     .then(function (response) {
