@@ -1,13 +1,14 @@
 'use strict';
 
-const pg = require('pg');
+const cors = require('cors');
 const express = require('express');
+const pg = require('pg');
 const bodyParser = require('body-parser');
-const PORT = process.env.PORT;
 const app = express();
+const PORT = process.env.PORT;
+
 const conString = process.env.DATABASE_URL;
 const client = new pg.Client(conString);
-const cors = require('cors');
 client.connect();
 
 app.use(cors());
@@ -17,10 +18,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('', (req, res) => {
   res.send('you got me')
 });
-app.post('/books', (req, res) => {
-  res.send('you posted')
-});
-app.get('/db/books', function (request, response) {
+// app.post('/books', (req, res) => {
+//   res.send('you posted')
+// });
+app.get('/db/book', function (request, response) {
   client.query('SELECT * FROM books;')
     .then(function (data) {
       response.send(data);
@@ -30,7 +31,7 @@ app.get('/db/books', function (request, response) {
     });
 });
 
-app.post('/db/books', function (request, response) {
+app.post('/db/book', function (request, response) {
   client.query(`
     INSERT INTO books(title, author, url)
     VALUES($1, $2, $3);
