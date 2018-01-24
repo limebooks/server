@@ -31,6 +31,8 @@ app.get('/db/book', function (request, response) {
     });
 });
 
+app.get('/test', (req, res) => res.send('hello world'));
+
 app.post('/db/book', function (request, response) {
   client.query(`
     INSERT INTO books(title, author, url, isbn, description)
