@@ -21,7 +21,7 @@ app.get('', (req, res) => {
 // app.post('/books', (req, res) => {
 //   res.send('you posted')
 // });
-app.get('/db/book', function (request, response) {
+app.get('/api/v1/books', function (request, response) {
   client.query('SELECT * FROM books;')
     .then(function (data) {
       response.send(data);
@@ -33,7 +33,7 @@ app.get('/db/book', function (request, response) {
 
 app.get('/test', (req, res) => res.send('hello world'));
 
-app.post('/db/book', function (request, response) {
+app.post('/api/v1/books', function (request, response) {
   client.query(`
     INSERT INTO books(title, author, url, isbn, description)
     VALUES($1, $2, $3, $4, $5);
