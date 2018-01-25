@@ -31,6 +31,16 @@ app.get('/db/book', function (request, response) {
     });
 });
 
+app.get('/db/book/:book_id', function (request, response) {
+  client.query(`SELECT * FROM books WHERE id=${book_id};`)
+  .then(function (data) {
+    response.send(data);
+  })
+  .catch(function (err) {
+    console.error('book_id catch error', err);
+  });
+});
+
 app.get('/test', (req, res) => res.send('hello world'));
 
 app.post('/db/book', function (request, response) {
