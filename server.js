@@ -24,7 +24,7 @@ app.get('', (req, res) => {
 app.get('/db/book', function (request, response) {
   client.query('SELECT * FROM books;')
     .then(function (data) {
-      response.send(data);
+      response.send(data.rows);
     })
     .catch(function (err) {
       console.error(err);
