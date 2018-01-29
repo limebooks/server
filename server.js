@@ -34,6 +34,7 @@ app.get('/api/v1/books', (req, res) => {
     .then(result => res.send(result.rows))
 });
 
+<<<<<<< HEAD
 app.get('/api/v1/books/:id', (req, res) => {
   client.query(
     'SELECT * FROM books WHERE book_id=$1;',
@@ -48,6 +49,29 @@ app.post('/api/db', (req, res) => {
     [req.body.author, req.body.title, req.body.isbn, req.body.imgUrl, req.body.description],
     err => console.error(err)
   );
+=======
+app.get('/test', (req, res) => res.send('hello world'));
+
+app.post('/db/book', function (request, response) {
+  client.query(`
+    INSERT INTO books(title, author, url, isbn, description)
+    VALUES($1, $2, $3, $4, $5);
+    `,
+    [
+      request.body.title,
+      request.body.author,
+      request.body.url,
+      request.body.isbn,
+      request.body.description
+    ]
+  )
+    .then(function (data) {
+      response.redirect('/');
+    })
+    .catch(function (err) {
+      console.error(err);
+    });
+>>>>>>> parent of 9f1836b... book_id get query
 });
 
 //PUTS
